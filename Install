@@ -1,0 +1,2 @@
+rm -rf Zephyr-Lite && git clone https://github.com/Thoq-jar/Zephyr-Lite.git && cd Zephyr-Lite && cd main && g++ main.cpp -o Zephyr `pkg-config --cflags --libs gtk+-3.0` && ./Zephyr
+
