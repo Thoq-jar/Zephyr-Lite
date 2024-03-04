@@ -137,7 +137,7 @@ static void show_about_dialog(GtkWidget *widget, gpointer data) {
                                     "Zephyr Lite");
   gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dialog), "3.3.24 (Nova)");
   gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about_dialog),
-                                 "Copyright © 2024 Zephyr Industrie");
+                                 "Copyright © 2024 Zephyr Industries");
   gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dialog),
                                 "Code at the speed of light.");
   gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about_dialog), "about:blank");
