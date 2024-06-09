@@ -1,17 +1,19 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 #include <gtk/gtktextview.h>
-
 #include <algorithm>
 #include <cctype>
 #include <string>
+#include <glib.h>
+#include <glib-object.h>
+#include <iostream>
 
 extern "C" {
-static void open_file(GtkWidget *, gpointer);
-static void save_file(GtkWidget *, gpointer);
-static void quit_application(GtkWidget *, gpointer);
-static void window_clicked(GtkWidget *, GdkEventButton *, gpointer);
-static void show_about_dialog(GtkWidget *, gpointer);
+    static void open_file(GtkWidget *, gpointer);
+    static void save_file(GtkWidget *, gpointer);
+    static void quit_application(GtkWidget *, gpointer);
+    static void window_clicked(GtkWidget *, GdkEventButton *, gpointer);
+    static void show_about_dialog(GtkWidget *, gpointer);
 }
 
 GdkPixbuf *create_pixbuf(const gchar *filename) {
@@ -26,6 +28,7 @@ GdkPixbuf *create_pixbuf(const gchar *filename) {
 }
 
 static void open_file(GtkWidget *widget, gpointer text_view) {
+  std::cout << "!\n";
   GtkWidget *dialog;
   GtkTextBuffer *buffer;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
@@ -111,6 +114,7 @@ static void open_file(GtkWidget *widget, gpointer text_view) {
 }
 
 static void save_file(GtkWidget *widget, gpointer text_view) {
+  std::cout << "!\n";
   GtkWidget *dialog;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
   gint res;
@@ -258,9 +262,12 @@ int main(int argc, char *argv[]) {
   gtk_window_set_title(GTK_WINDOW(window), "Zephyr");
   GtkWidget *open_item = gtk_menu_item_new_with_label("Open");
   gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), open_item);
+  g_signal_connect(open_item, "activate", G_CALLBACK(open_file), text_view);
 
   GtkWidget *save_item = gtk_menu_item_new_with_label("Save");
   gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), save_item);
+  g_signal_connect(save_item, "activate", G_CALLBACK(save_file), text_view);
+
 
   GtkWidget *quit_item = gtk_menu_item_new_with_label("Quit");
   gtk_menu_shell_append(GTK_MENU_SHELL(file_menu), quit_item);
