@@ -28,7 +28,6 @@ GdkPixbuf *create_pixbuf(const gchar *filename) {
 }
 
 static void open_file(GtkWidget *widget, gpointer text_view) {
-  std::cout << "!\n";
   GtkWidget *dialog;
   GtkTextBuffer *buffer;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
@@ -114,7 +113,6 @@ static void open_file(GtkWidget *widget, gpointer text_view) {
 }
 
 static void save_file(GtkWidget *widget, gpointer text_view) {
-  std::cout << "!\n";
   GtkWidget *dialog;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
   gint res;
@@ -242,7 +240,7 @@ int main(int argc, char *argv[]) {
                    G_CALLBACK(select_all_text), text_view);
 
   GtkWidget *scrolled_window = gtk_scrolled_window_new(NULL, NULL);
-  gtk_widget_set_size_request(scrolled_window, 400, 200);
+  gtk_widget_set_size_request(scrolled_window, 1600, 900);
   gtk_container_add(GTK_CONTAINER(scrolled_window), text_view);
 
   GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -281,19 +279,25 @@ int main(int argc, char *argv[]) {
 
   gtk_container_add(GTK_CONTAINER(window), box);
 
+  const char* cssStyles = "* {"
+                        "background-color: #111;"
+                        "color: white;"
+                        "border: none;"
+                        "font-size: 14px;"
+                        "font-family: sans-serif;"
+                        "}";
   GtkCssProvider *css_provider = gtk_css_provider_new();
   GError *error = NULL;
-  gtk_css_provider_load_from_path(css_provider, "dark.css", &error);
-  if (error != NULL) {
-    g_printerr("Failed to load CSS: %s\n",
-               error ? error->message : "Unknown error");
+  gtk_css_provider_load_from_data(css_provider, cssStyles, -1, &error);
+  if (error!= NULL) {
+    g_printerr("Failed to load CSS: %s\n", error? error->message : "Unknown error");
     g_clear_error(&error);
   } else {
-    gtk_style_context_add_provider_for_screen(
-        gdk_screen_get_default(), GTK_STYLE_PROVIDER(css_provider),
-        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+                                              GTK_STYLE_PROVIDER(css_provider),
+                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   }
-
+  
   gtk_widget_show_all(window);
   gtk_main();
 
